@@ -1,0 +1,9 @@
+config {
+    type: "table",
+    name: "second_table",
+    description: "this is  my second table.",
+    dependencies: ["first_table"]
+}
+
+select * from dataform.first_table
+

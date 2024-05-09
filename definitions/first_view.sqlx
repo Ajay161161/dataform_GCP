@@ -1,3 +1,0 @@
-
-config { type: "table" }
-SELECT * FROM ${ref("schema", "store_clean")}
