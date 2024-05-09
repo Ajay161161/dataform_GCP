@@ -1,2 +1,5 @@
-//test file 
-//test 2 
+-- Define the new table schema based on the existing table structure
+CREATE TABLE {{ ref("existing_table") }} AS
+SELECT *
+FROM `dlp-test-project-417712.dlpresults.dlpresultstable`
+WHERE 1 = 0; -- This will copy the structure but not the data
