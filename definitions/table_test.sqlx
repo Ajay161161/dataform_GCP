@@ -1,0 +1,8 @@
+config {
+  type: "table",
+  schema:"Dataflow_East4",
+  name: "Test_table_filtered"  ,
+  tags: "test"
+}
+
+SELECT * FROM `dlp-test-project-417712.Dataflow_East4.Test_table`
