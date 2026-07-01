@@ -1,5 +1,5 @@
 defaultProject: dlp-test-project-417712
-defaultLocation: US
-defaultDataset: dataform
+defaultLocation: us-east4
+defaultDataset: dataflow
 defaultAssertionDataset: dataform_assertions
 dataformCoreVersion: 3.0.0-beta.4

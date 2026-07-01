@@ -1,0 +1,19 @@
+config {
+  type: "view",
+  schema: "Dataflow_East4",
+  name: "Test_view_enhanced",
+  tags: "test"
+}
+
+SELECT 
+  id,
+  Name, 
+  email,  
+  CASE 
+    WHEN gender = 'Male' THEN 'M'
+    WHEN gender = 'Female' THEN 'F'
+    ELSE 'O' 
+  END AS gender_code,
+  SAFE_CAST(credit_card AS INT64) AS credit_card, 
+  IF(credit_card < 0, "Invalid Credit Card Number", "valid") AS credit_card_validation
+FROM ${ref("Test_table_filtered")}

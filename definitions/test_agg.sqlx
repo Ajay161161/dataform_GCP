@@ -1,0 +1,5 @@
+config {
+  type:  "operations",
+  tags: "test"
+}
+select * from ${ref("Test_view_enhanced")} where gender_code = 'M'

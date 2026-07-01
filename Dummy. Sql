@@ -1,0 +1,78 @@
+from airflow import DAG
+from airflow.operators.python import PythonOperator
+
+from datetime import datetime
+
+from google.cloud import storage
+
+import base64
+
+
+INPUT_BUCKET = "input-bucket"
+OUTPUT_BUCKET = "output-bucket"
+
+
+def decode_base64_file():
+
+    client = storage.Client()
+
+    bucket = client.bucket(INPUT_BUCKET)
+
+    blobs = bucket.list_blobs()
+
+    for blob in blobs:
+
+        if blob.name.endswith(".b64"):
+
+            print(f"Processing: {blob.name}")
+
+            encoded_data = blob.download_as_text()
+
+            decoded_data = base64.b64decode(
+                encoded_data
+            )
+
+            output_file = (
+                blob.name.replace(".b64", ".csv")
+            )
+
+            output_bucket = client.bucket(
+                OUTPUT_BUCKET
+            )
+
+            output_blob = output_bucket.blob(
+                f"decoded/{output_file}"
+            )
+
+            output_blob.upload_from_string(
+                decoded_data,
+                content_type="text/csv"
+            )
+
+            print(
+                f"Completed: {output_file}"
+            )
+
+
+with DAG(
+
+    dag_id="base64_decode_dag",
+
+    start_date=datetime(2025, 1, 1),
+
+    schedule=None,
+
+    catchup=False
+
+) as dag:
+
+
+    decode_task = PythonOperator(
+
+        task_id="decode_base64_file",
+
+        python_callable=decode_base64_file
+    )
+
+
+    decode_task
